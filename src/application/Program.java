@@ -1,20 +1,24 @@
 package application;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Scanner;
+import java.io.*;
 
 public class Program {
     public static void main (String[] args){
-        File file = new File ("C:\\Users\\alish\\IdeaProjects\\JavaFiles\\Presentation.txt");
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(file);
-            while (scanner.hasNextLine())
-                System.out.println(scanner.nextLine());
+        String pathFile = "C:\\Users\\alish\\IdeaProjects\\JavaFiles\\Presentation.txt";
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(pathFile))){
+            /*
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(pathFile));
+            Poderia ter sido instanciado dentro do bloco ao invés do try-with-resource,
+            Mas, é interessante pois não precisa do bloco finally para fechar os arquivos.
+            */
+            String hasText = bufferedReader.readLine();
+            while (hasText != null) {
+                System.out.println(hasText);
+                hasText = bufferedReader.readLine();
+            }
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());;
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }
